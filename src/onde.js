@@ -167,6 +167,8 @@ onde.Onde.prototype.renderObject = function (schema, parentNode, namespace, data
     if(schema.additionalProperties) {
         for (var propName in data) {
             sortedKeys.push(propName);
+            props[propName] = schema.additionalProperties;
+            props[propName]._deletable = true;
         }
     }
     // Last property to be collected is the primary, if any.
