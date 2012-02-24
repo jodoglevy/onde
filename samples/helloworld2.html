@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <title>JSON Editor</title>
+    <!-- The CSS, if you want nice looking things -->
+    <link rel="stylesheet" href="../src/onde.css" type="text/css"/>
+  </head>
+  <body>
+
+
+<form id="data-entry-form" method="post">
+  <!-- The element where the generated form goes to. -->
+  <div class="onde-panel"></div>
+  <!-- The submit button. -->
+  <p class="actions"><button type="submit" name="submit">Give me my data</button></p>
+</form>
+
+
+<script type="application/javascript" src="assets/jquery-1.7.1.min.js"></script>
+<script type="application/javascript" src="../src/onde.js"></script>
+<script type="application/javascript">
+$(document).ready(function () {
+  // The schema we use
+  var sampleSchema = { 
+    type: "object",
+    additionalProperties: {
+    type: "object",
+        properties: {
+            namespace: {
+                type:"array",
+                required: true,
+                items: {type: "string"}
+            },
+            groups: {
+                type: "array",
+                required: true,
+                items: {type: "string"}
+            }
+        }
+    }
+  };
+
+  var sampleData = {
+	        "Frontpage": {
+		        "namespace": [
+			        "Layouts",
+			        "Frontpage"
+		        ],
+		        "groups": [
+			        "Top Headline",
+			        "Breaking",
+			        "Slideshow",
+			        "Left Headlines",
+			        "Right Headlines",
+			        "Opinion",
+			        "News",
+			        "Sports",
+			        "Recess",
+			        "Towerview"
+		        ]
+	        },
+	        "News": {
+		        "namespace": [
+			        "Layouts",
+			        "News"
+		        ],
+		        "groups": [
+			        "Featured",
+			        "Right Headlines",
+			        "Headlines",
+			        "Stories"
+		        ]
+	        },
+	        "Sports": {
+		        "namespace": [
+			        "Layouts",
+			        "Sports"
+		        ],
+		        "groups": [
+			        "Slideshow",
+			        "Stories"
+		        ]
+	        },
+	        "Opinion": {
+		        "namespace": [
+			        "Layouts",
+			        "Opinion"
+		        ],
+		        "groups": [
+			        "Featured"
+		        ]
+	        },
+	        "Recess": {
+		        "namespace": [
+			        "Layouts",
+			        "Recess"
+		        ],
+		        "groups": [
+			        "Featured",
+			        "Music",
+			        "Film",
+			        "Art",
+			        "Stories"
+		        ]
+	        },
+	        "Towerview": {
+		        "namespace": [
+			        "Layouts",
+			        "Towerview"
+		        ],
+		        "groups": [
+			        "Featured",
+			        "Savvy",
+			        "Wisdom",
+			        "Editors Note",
+			        "Prefix"
+		        ]
+	        },
+	        "Newsletter": {
+		        "namespace": [
+			        "Layouts",
+			        "Newsletter"
+		        ],
+		        "groups": [
+			        "News",
+			        "Sports",
+			        "Opinion",
+			        "Recess",
+			        "Towerview"
+		        ]
+	        }
+        };
+    
+  // Instantiate Onde with our form above
+  var ondeSession = new onde.Onde($('#data-entry-form'));
+  // Render the form with the schema
+  ondeSession.render(sampleSchema, sampleData, { collapsedCollapsibles: true });
+  
+  // Bind our form's submit event. We use this to get the data out from Onde
+  $('#data-entry-form').submit(function (evt) {
+    evt.preventDefault();
+    var outData = ondeSession.getData();
+    if (outData.errorCount) {
+      alert("Error");
+    } else {
+      console.log(JSON.stringify(outData.data, null, "  "));
+      alert("Output is in your browser's console");
+    }
+    return false;
+  });
+});
+</script>
+
+  </body>
+</html>

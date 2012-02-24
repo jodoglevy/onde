@@ -163,6 +163,12 @@ onde.Onde.prototype.renderObject = function (schema, parentNode, namespace, data
             sortedKeys.push(propName);
         }
     }
+    // Check for additional properties
+    if(schema.additionalProperties) {
+        for (var propName in data) {
+            sortedKeys.push(propName);
+        }
+    }
     // Last property to be collected is the primary, if any.
     if (schema.primaryProperty) {
         sortedKeys.unshift(schema.primaryProperty);
