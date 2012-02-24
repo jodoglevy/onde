@@ -104,18 +104,22 @@ onde.Onde = function (formElement, schema, documentInst, opts) {
     this.panelElement.find('.field-delete').live('click', function (evt) {
         evt.preventDefault();
         evt.stopPropagation(); //CHECK: Only if collapsible
-        $('#' + $(this).attr('data-id')).fadeOut('fast', function () {
-            // Change the item's and siblings' classes accordingly
-            //FIXME: This is unstable
-            if ($(this).hasClass('first')) {
-                $(this).next('li.field').addClass('first');
-            }
-            if ($(this).hasClass('last')) {
-                $(this).prev('li.field').addClass('last');
-            }
-            $(this).remove();
-        });
+        
+        if (confirm("Are you sure you want to delete?")) {
+            $('#' + $(this).attr('data-id')).fadeOut('fast', function () {
+                // Change the item's and siblings' classes accordingly
+                //FIXME: This is unstable
+                if ($(this).hasClass('first')) {
+                    $(this).next('li.field').addClass('first');
+                }
+                if ($(this).hasClass('last')) {
+                    $(this).prev('li.field').addClass('last');
+                }
+                $(this).remove();
+            });
+        }
     });
+
     // Type selector
     this.panelElement.find('.field-type-select').live('change', function (evt) {
         evt.preventDefault();
